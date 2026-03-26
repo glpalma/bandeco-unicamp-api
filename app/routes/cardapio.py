@@ -35,7 +35,7 @@ def _build_response(rows: list[Cardapio], menu_date: date) -> CardapioResponse:
             guarnicao=row.guarnicao,
             salada=row.salada,
             sobremesa=row.sobremesa,
-            suco=row.suco,
+            suco=row.suco.replace("REFRESCO DE ", "") if row.suco else row.suco,
             observacoes=row.observacoes,
         )
         if row.refeicao == "almoco" and row.tipo == "regular":
