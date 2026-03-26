@@ -61,15 +61,6 @@ def list_available_dates(session: Session = Depends(get_session)):
     rows = session.exec(select(Cardapio.data).distinct().order_by(Cardapio.data)).all()
     return DatasDisponiveisResponse(datas=list(rows))
 
-@router.post("/scrape", status_code=202)
-async def trigger_scrape(background_tasks: BackgroundTasks):
-    """
-    Manually trigger a scraping run in the background.
-    Returns immediately with 202 Accepted; results will be available shortly.
-    """
-    background_tasks.add_task(run_scrape)
-    return {"detail": "Scraping started in the background."}
-
 
 @router.get("/{data}", response_model=CardapioResponse)
 def get_cardapio(data: date, session: Session = Depends(get_session)):
@@ -89,3 +80,13 @@ def get_cardapio(data: date, session: Session = Depends(get_session)):
         )
 
     return _build_response(list(rows), data)
+
+
+@router.post("/scrape", status_code=202)
+async def trigger_scrape(background_tasks: BackgroundTasks):
+    """
+    Manually trigger a scraping run in the background.
+    Returns immediately with 202 Accepted; results will be available shortly.
+    """
+    background_tasks.add_task(run_scrape)
+    return {"detail": "Scraping started in the background."}
