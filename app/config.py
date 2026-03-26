@@ -13,7 +13,7 @@ class Settings(BaseSettings):
 
     # Hour (24h, local time) at which the daily scraping job runs
     scrape_hour: int = 12
-    scrape_minute: int = 0
+    scrape_minute: int = 10
 
     # Timeout in seconds for each HTTP request
     scrape_timeout_s: int = 15
