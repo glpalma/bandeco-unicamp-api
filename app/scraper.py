@@ -56,10 +56,9 @@ _DESCRIPTION_FIELDS = [
 def _dates_to_scrape() -> list[date]:
     """Return all dates from today through the coming Sunday (inclusive)."""
     today = date.today()
-    days_until_sunday = (6 - today.weekday()) % 7  # Sunday = weekday 6
+    days_to_scrape = 6
     # Always include at least today
-    return [today + timedelta(days=i) for i in range(days_until_sunday + 1)]
-
+    return [today + timedelta(days=i) for i in range(days_to_scrape + 1)]
 
 def _parse_description(div: Tag) -> dict[str, Optional[str]]:
     """
@@ -193,9 +192,9 @@ async def scrape_cardapio() -> list[dict]:
 
             if not records:
                 logger.info("No menu found for %s (page may not be published yet)", menu_date)
-            else:
-                logger.info("Parsed %d records for %s", len(records), menu_date)
+                break
 
+            logger.info("Parsed %d records for %s", len(records), menu_date)
             all_records.extend(records)
 
     return all_records
