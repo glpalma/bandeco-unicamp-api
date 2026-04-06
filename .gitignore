@@ -208,3 +208,6 @@ __marimo__/
 
 #Database
 bandeco.db
+
+# Local development
+.DS_Store
